@@ -1,70 +1,86 @@
-name: "template"
-
+name: "aws-eks-aws-node-termination-handler"
 # Canonical GitHub repo
-github_repo: "cloudposse-terraform-components/template"
-
+github_repo: "cloudposse-terraform-components/aws-eks-aws-node-termination-handler"
 # Short description of this project
 description: |-
-  Description of this component
+  This component creates a Helm release for
+  [aws-node-termination-handler](https://github.com/aws/aws-node-termination-handler) on a Kubernetes cluster.
+  [aws-node-termination-handler](https://github.com/aws/aws-node-termination-handler) is a Kubernetes addon that (by
+  default) monitors the EC2 IMDS endpoint for scheduled maintenance events, spot instance termination events, and
+  rebalance recommendation events, and drains and/or cordons nodes upon such events. This ensures that workloads on
+  Kubernetes are evicted gracefully when a node needs to be terminated.
 
-usage: |-
-  **Stack Level**: Regional or Test47
+  ## Usage
 
-  Here's an example snippet for how to use this component.
-  
+  **Stack Level**: Regional
+
+  Once the catalog file is created, the file can be imported as follows.
+
+  ```yaml
+  import:
+    - catalog/eks/aws-node-termination-handler
+    ...
+  ```
+
+  The default catalog values
+
   ```yaml
   components:
     terraform:
-      foo:
+      aws-node-termination-handler:
+        backend:
+          s3:
+            workspace_key_prefix: aws-node-termination-handler
         vars:
           enabled: true
+          chart_version: 0.15.3
+          rbac_enabled: true
+
+          # You can use `chart_values` to set any other chart options. Treat `chart_values` as the root of the doc.
+          #
+          # # For example
+          # ---
+          # chart_values:
+          #   enableShield: false
+          chart_values: {}
   ```
 
+  <!-- prettier-ignore-start -->
+
+  <!-- prettier-ignore-end -->
+
+  ## References
+
+  - [aws-node-termination-handler](https://artifacthub.io/packages/helm/aws/aws-node-termination-handler) - Helm Chart
+  - [aws-node-termination-handler](https://github.com/aws/aws-node-termination-handler) - AWS Node Termination Handler
 include:
   - "docs/terraform.md"
-
 tags:
-  - terraform
-  - terraform-modules
-  - aws
-  - components
-  - terraform-components
-  - root
-  - geodesic
-  - reference-implementation
-  - reference-architecture
-
+  - component/eks/aws-node-termination-handler
+  - layer/eks
+  - provider/aws
+  - provider/helm
 # Categories of this project
 categories:
-  - terraform-modules/root
-  - terraform-components
-
+  - component/eks/aws-node-termination-handler
+  - layer/eks
+  - provider/aws
+  - provider/helm
 # License of this project
 license: "APACHE2"
-
 # Badges to display
 badges:
-  - name: "Latest Release"
-    image: "https://img.shields.io/github/release/cloudposse-terraform-components/template.svg?style=for-the-badge"
-    url: "https://github.com/cloudposse-terraform-components/template/releases/latest"
-  - name: "Slack Community"
-    image: "https://slack.cloudposse.com/for-the-badge.svg"
-    url: "https://slack.cloudposse.com"
-
-references:
-  - name: "Cloud Posse Documentation"
-    description: "Complete documentation for the Cloud Posse solution"
-    url: "https://docs.cloudposse.com"
-  - name: "Reference Architectures"
-    description: "Launch effortlessly with our turnkey reference architectures, built either by your team or ours."
-    url: "https://cloudposse.com/"
-
+  - name: Latest Release
+    image: https://img.shields.io/github/release/cloudposse-terraform-components/aws-eks-aws-node-termination-handler.svg?style=for-the-badge
+    url: https://github.com/cloudposse-terraform-components/aws-eks-aws-node-termination-handler/releases/latest
+  - name: Slack Community
+    image: https://slack.cloudposse.com/for-the-badge.svg
+    url: https://slack.cloudposse.com
 related:
-- name: "Cloud Posse Terraform Modules"
-  description: Our collection of reusable Terraform modules used by our reference architectures.
-  url: "https://docs.cloudposse.com/modules/"
-- name: "Atmos"
-  description: "Atmos is like docker-compose but for your infrastructure"
-  url: "https://atmos.tools"
-
+  - name: "Cloud Posse Terraform Modules"
+    description: Our collection of reusable Terraform modules used by our reference architectures.
+    url: "https://docs.cloudposse.com/modules/"
+  - name: "Atmos"
+    description: "Atmos is like docker-compose but for your infrastructure"
+    url: "https://atmos.tools"
 contributors: [] # If included generates contribs
